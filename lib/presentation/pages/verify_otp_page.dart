@@ -3,7 +3,6 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:sample_chat_app_with_graphql/utils/size_utils.dart';
 import '../../theme/theme_helper.dart';
-import '../../utils/custom_elevated_button.dart';
 import '../controllers/auth_controller.dart';
 
 class VerifyOtpPage extends StatelessWidget {
@@ -40,8 +39,9 @@ class VerifyOtpPage extends StatelessWidget {
               if (controller.isLoading.value) {
                 return const CircularProgressIndicator();
               } else {
-                return CustomElevatedButton(
-                  onPressed: (){
+
+                return InkWell(
+                  onTap: (){
                     if (controller.otp.value.length<6) {
                       Get.snackbar("Error!","Please enter valid Otp");
                     }else{
@@ -49,7 +49,14 @@ class VerifyOtpPage extends StatelessWidget {
 
                     }
                   },
-                  text:'Verify Otp',
+                  child: Container(
+                    alignment: Alignment.center,
+                    height:  48.v,
+                    width:  double.maxFinite,
+                    decoration: BoxDecoration( color: appTheme.green200,borderRadius: BorderRadius.circular(10) ),
+                    child: const Text("Verify Otp",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                  ),
                 );
               }
             }),

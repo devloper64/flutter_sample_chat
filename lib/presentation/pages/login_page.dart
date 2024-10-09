@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sample_chat_app_with_graphql/utils/custom_text_form_field.dart';
+import 'package:sample_chat_app_with_graphql/utils/size_utils.dart';
 import '../../theme/theme_helper.dart';
-import '../../utils/custom_elevated_button.dart';
+
 import '../controllers/auth_controller.dart';
 
 class LoginPage extends StatelessWidget {
@@ -20,9 +20,40 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomTextFormField(
+                TextFormField(
                   controller: controller.emailController,
-                  hintText: "Email",
+                  // hintText: "Email",
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    isDense: true,
+                    fillColor: Colors.white,
+                    filled: true,
+                    errorMaxLines: 3,
+                    border:
+                        OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.h),
+                          borderSide: BorderSide(
+                            color: appTheme.blueGray100,
+                            width: 1,
+                          ),
+                        ),
+                    enabledBorder:
+                        OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.h),
+                          borderSide: BorderSide(
+                            color: appTheme.blueGray100,
+                            width: 1,
+                          ),
+                        ),
+                    focusedBorder:
+                        OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.h),
+                          borderSide: BorderSide(
+                            color: appTheme.blueGray100,
+                            width: 1,
+                          ),
+                        ),
+                  ),
                   validator: (value) {
                     if (value == null || (!isValidEmail(value, isRequired: true))) {
                       return "Please Enter Valid Email";
@@ -35,13 +66,20 @@ class LoginPage extends StatelessWidget {
                   if (controller.isLoading.value) {
                     return const CircularProgressIndicator();
                   } else {
-                    return CustomElevatedButton(
-                      onPressed: (){
+                    return InkWell(
+                      onTap: (){
                         if (_formKey.currentState!.validate()) {
                           controller.login();
                         }
                       },
-                      text:'Login',
+                      child: Container(
+                        alignment: Alignment.center,
+                          height:  48.v,
+                          width:  double.maxFinite,
+                         
+                          decoration: BoxDecoration( color: appTheme.green200,borderRadius: BorderRadius.circular(10) ),
+                          child: const Text("Login",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)
+                      ),
                     );
                   }
                 }),
