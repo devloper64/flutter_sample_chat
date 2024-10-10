@@ -6,6 +6,9 @@ import '../../theme/theme_helper.dart';
 import '../controllers/auth_controller.dart';
 
 class LoginPage extends StatelessWidget {
+
+
+  LoginPage({super.key});
   final AuthController controller = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -74,7 +77,7 @@ class LoginPage extends StatelessWidget {
                       },
                       child: Container(
                         alignment: Alignment.center,
-                          height:  48.v,
+                          height:  48.h,
                           width:  double.maxFinite,
                          
                           decoration: BoxDecoration( color: appTheme.green200,borderRadius: BorderRadius.circular(10) ),

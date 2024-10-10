@@ -18,8 +18,8 @@ class VerifyOtpPage extends StatelessWidget {
           children: [
             OtpTextField(
               numberOfFields: 6,
-              fieldWidth: 50..h,
-              fieldHeight: 72.v,
+              fieldWidth: 50.h,
+              fieldHeight: 72.h,
               borderColor: appTheme.green50,
               showFieldAsBox: true,
               fillColor:appTheme.green50,
@@ -51,7 +51,7 @@ class VerifyOtpPage extends StatelessWidget {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    height:  48.v,
+                    height:  48.h,
                     width:  double.maxFinite,
                     decoration: BoxDecoration( color: appTheme.green200,borderRadius: BorderRadius.circular(10) ),
                     child: const Text("Verify Otp",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),

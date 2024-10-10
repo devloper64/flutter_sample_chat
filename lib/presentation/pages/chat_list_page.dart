@@ -16,7 +16,7 @@ class ChatListScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Chat List",style: TextStyle(color: Colors.white),),backgroundColor: appTheme.green200,actions: [
         IconButton(onPressed: (){
           PrefUtils().clearPreferencesData();
-          Get.offAllNamed('/');
+          Get.offAllNamed('/login');
         }, icon: Icon(Icons.logout,color: Colors.white,))
       ],),
       body: Obx(() {

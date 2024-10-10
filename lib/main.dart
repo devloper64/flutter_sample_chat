@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sample_chat_app_with_graphql/domain/usecases/message_usecase.dart';
@@ -7,6 +8,7 @@ import 'package:sample_chat_app_with_graphql/presentation/controllers/chat_list_
 import 'package:sample_chat_app_with_graphql/presentation/pages/chat_list_page.dart';
 import 'package:sample_chat_app_with_graphql/theme/theme_helper.dart';
 import 'package:sample_chat_app_with_graphql/utils/pref_utils.dart';
+import 'package:sample_chat_app_with_graphql/utils/size_utils.dart';
 import 'data/datasources/auth_remote_datasource.dart';
 import 'data/datasources/conversation_remote_datasource.dart';
 import 'data/datasources/message_remote_datasource.dart';
@@ -65,22 +67,36 @@ void main() async {
       messageUseCase: MessageUseCase(messageRepository)
   ));
 
-  runApp(MyApp());
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((value) async {
+
+    runApp(const MyApp());
+  });
+
+
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: theme,
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      initialRoute: PrefUtils().getAccessToken().isEmpty?'/':'/chat-list',
-      getPages: [
-        GetPage(name: '/', page: () => LoginPage()),
-        GetPage(name: '/verify-otp', page: () => VerifyOtpPage()),
-        GetPage(name: '/chat-list', page: () => ChatListScreen()),
-      ],
+    return Sizer(
+      builder: (context,orientation,deviceType) {
+        return GetMaterialApp(
+          theme: theme,
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          initialRoute: PrefUtils().getAccessToken().isEmpty?'/login':'/chat-list',
+          getPages: [
+            GetPage(name: '/login', page: () => LoginPage()),
+            GetPage(name: '/verify-otp', page: () => VerifyOtpPage()),
+            GetPage(name: '/chat-list', page: () => ChatListScreen()),
+          ],
+        );
+      }
     );
   }
 }
