@@ -11,4 +11,7 @@ class MessageUseCase {
   Future<List<Message>> call(String conversationId) async {
     return await repository.getMessages(conversationId);
   }
+  Future<Map<String, dynamic>> callSendMessage(String content,String conversationId,String receiverUserId) {
+    return repository.sendMessage(content, conversationId, receiverUserId);
+  }
 }

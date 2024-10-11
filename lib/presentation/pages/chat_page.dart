@@ -10,6 +10,8 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final conversationId = Get.arguments['conversationId'];
+    final receiverUserId = Get.arguments['receiverUserId'];
+
 
     // Fetch messages for the current conversation
     controller.fetchMessages(conversationId);
@@ -76,7 +78,7 @@ class ChatPage extends StatelessWidget {
                         ),
                       ),
                       onSubmitted: (value) {
-                        controller.sendMessage();
+                        controller.sendMessage(conversationId, receiverUserId);
                         _scrollToBottom(); // Auto-scroll after sending a message
                       },
                     ),
@@ -84,7 +86,7 @@ class ChatPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.send, color: Colors.blue),
                     onPressed: () {
-                      controller.sendMessage();
+                      controller.sendMessage(conversationId, receiverUserId);
                       _scrollToBottom(); // Auto-scroll after pressing the send button
                     },
                   ),

@@ -1,6 +1,6 @@
 class Message {
   final String content;
-  final String conversationId;
+  final String? conversationId;
   final String senderId;
   final String senderEmail;
   final String senderFirstName;
@@ -8,7 +8,7 @@ class Message {
 
   Message({
     required this.content,
-    required this.conversationId,
+    this.conversationId,
     required this.senderId,
     required this.senderEmail,
     required this.senderFirstName,

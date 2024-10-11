@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  graphql_flutter: 5.1.2
+  graphql_flutter: ^5.2.0-beta.7
   get: ^4.6.5
   shared_preferences: ^2.0.15
   flutter_otp_text_field: ^1.1.3+2

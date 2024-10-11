@@ -7,6 +7,7 @@ import 'package:sample_chat_app_with_graphql/presentation/controllers/chat_contr
 import 'package:sample_chat_app_with_graphql/presentation/controllers/chat_list_controller.dart';
 import 'package:sample_chat_app_with_graphql/presentation/pages/chat_list_page.dart';
 import 'package:sample_chat_app_with_graphql/theme/theme_helper.dart';
+import 'package:sample_chat_app_with_graphql/utils/graphql_custom_client.dart';
 import 'package:sample_chat_app_with_graphql/utils/pref_utils.dart';
 import 'package:sample_chat_app_with_graphql/utils/size_utils.dart';
 import 'data/datasources/auth_remote_datasource.dart';
@@ -26,56 +27,38 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await PrefUtils().init();
-  final HttpLink httpLink = HttpLink('https://api-staging.qawqal.com/graphql');
 
-  late Link link;
 
-  final AuthLink authLink = AuthLink(
-    getToken: () async => 'Bearer ${PrefUtils().getAccessToken()}',
-  );
-
-   link = authLink.concat(httpLink);
-
-  final GraphQLClient client = GraphQLClient(
-    link: link,
-    cache: GraphQLCache(store: InMemoryStore()),
-  );
-
-  final AuthRemoteDataSource remoteDataSource = AuthRemoteDataSource(client: client);
+  // Set up repositories and controllers with Dependency Injection using GetX
+  final AuthRemoteDataSource remoteDataSource = AuthRemoteDataSource(client: GraphqlCustomClient.init());
   final AuthRepositoryImpl authRepository = AuthRepositoryImpl(remoteDataSource: remoteDataSource);
 
-  final ConversationRemoteDataSource remoteDataSourceConversation = ConversationRemoteDataSource(client: client);
+  final ConversationRemoteDataSource remoteDataSourceConversation = ConversationRemoteDataSource(client: GraphqlCustomClient.init());
   final ConversationRepositoryImpl conversationRepository = ConversationRepositoryImpl(remoteDataSource: remoteDataSourceConversation);
 
-
-  final MessageRemoteDataSource remoteDataSourceMessage = MessageRemoteDataSource(client: client);
+  final MessageRemoteDataSource remoteDataSourceMessage = MessageRemoteDataSource(client: GraphqlCustomClient.init());
   final MessageRepositoryImpl messageRepository = MessageRepositoryImpl(remoteDataSource: remoteDataSourceMessage);
-
-
 
   Get.put(AuthController(
     loginUseCase: LoginUseCase(authRepository),
     verifyOtpUseCase: VerifyOtpUseCase(authRepository),
   ));
 
-
   Get.put(ChatListController(
       fetchConversationsUseCase: FetchConversationsUseCase(conversationRepository)
   ));
 
   Get.put(ChatController(
-      messageUseCase: MessageUseCase(messageRepository)
+      messageUseCase: MessageUseCase(messageRepository),
+      graphqlClient: GraphqlCustomClient.init()
   ));
 
-
+  // Set preferred orientation and run the app
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then((value) async {
-
     runApp(const MyApp());
   });
-
-
 }
 
 class MyApp extends StatelessWidget {
@@ -84,19 +67,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(
-      builder: (context,orientation,deviceType) {
+      builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          initialRoute: PrefUtils().getAccessToken().isEmpty?'/login':'/chat-list',
+          initialRoute: PrefUtils().getAccessToken().isEmpty ? '/login' : '/chat-list',
           getPages: [
             GetPage(name: '/login', page: () => LoginPage()),
             GetPage(name: '/verify-otp', page: () => VerifyOtpPage()),
             GetPage(name: '/chat-list', page: () => ChatListScreen()),
           ],
         );
-      }
+      },
     );
   }
 }

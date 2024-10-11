@@ -16,6 +16,12 @@ class MessageRepositoryImpl implements MessageRepository {
    return remoteDataSource.getMessages(conversationId);
   }
 
+  @override
+  Future<Map<String, dynamic>> sendMessage(String content, String conversationId, String receiverUserId) {
+
+    return remoteDataSource.sendMessage(content, conversationId, receiverUserId);
+  }
+
 
 
 

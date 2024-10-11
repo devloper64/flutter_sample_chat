@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../../domain/entities/conversation.dart';
@@ -52,6 +54,36 @@ class MessageRemoteDataSource {
     return List<Message>.from(
       data.map((e) => Message.fromJson(e['node'])),
     );
+  }
+
+  Future<Map<String, dynamic>> sendMessage(String content,String conversationId,String receiverUserId) async {
+    const String sendMessageMutation = """
+      mutation createMessage(\$input: CreateMessageInput!) {
+        createMessage(input: \$input) {
+       ... on Message {
+             content
+           }
+        }
+      }
+    """;
+
+    final result = await client.mutate(
+      MutationOptions(
+        document: gql(sendMessageMutation),
+        variables: {
+          "input": {
+            "content": content,
+            "conversationId": conversationId,
+            "receiverUserId": receiverUserId
+          },
+        },
+      ),
+    );
+
+    if (result.hasException) {
+      throw Exception(result.exception.toString());
+    }
+    return result.data?['createMessage'];
   }
 
 }

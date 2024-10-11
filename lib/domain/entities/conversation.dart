@@ -25,16 +25,19 @@ class Conversation {
 class LastResponderMessage {
   final String content;
   final Sender sender;
+  final Receiver receiver;
 
   LastResponderMessage({
     required this.content,
     required this.sender,
+    required this.receiver,
   });
 
   factory LastResponderMessage.fromJson(Map<String, dynamic> json) {
     return LastResponderMessage(
       content: json['content'],
       sender: Sender.fromJson(json['sender']),
+      receiver: Receiver.fromJson(json['receiver']),
     );
   }
 }
@@ -45,6 +48,18 @@ class Sender {
 
   factory Sender.fromJson(Map<String, dynamic> json) {
     return Sender(
+      user: User.fromJson(json['user']),
+    );
+  }
+}
+
+class  Receiver {
+  final User user;
+
+  Receiver({required this.user});
+
+  factory Receiver.fromJson(Map<String, dynamic> json) {
+    return Receiver(
       user: User.fromJson(json['user']),
     );
   }

@@ -27,6 +27,15 @@ class ConversationRemoteDataSource {
                       firstName
                       lastName
                     }
+                    
+                  }
+                   receiver {
+                    user {
+                      id
+                      email
+                      firstName
+                      lastName
+                    }
                   }
                 }
                 unreadCount

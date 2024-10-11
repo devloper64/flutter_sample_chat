@@ -37,7 +37,7 @@ class ChatListScreen extends StatelessWidget {
               title: Text(senderName,style: const TextStyle(fontWeight: FontWeight.bold),),
               subtitle: Text(lastMessage),
               onTap: () {
-                Get.to(ChatPage(), arguments: {'conversationId': conversation.conversationId});
+                Get.to(ChatPage(), arguments: {'conversationId': conversation.conversationId,'receiverUserId': conversation.lastResponderMessage?.receiver.user.id});
               },
             );
           },
